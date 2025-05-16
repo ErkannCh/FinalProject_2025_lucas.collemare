@@ -1,0 +1,6 @@
+preprocessed/
+features/
+data/
+models/
+submission_cf.csv
+.vscode/
