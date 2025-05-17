@@ -89,7 +89,3 @@ Malgré plusieurs tentatives pour améliorer les métriques (notamment **NDCG** 
 * Renforcement du mécanisme cold-start via exploration plus profonde du graphe social.
 
 > **Bilan :** les approches explorées montrent leur potentiel, mais des optimisations supplémentaires (par ex. model tuning plus fin, incorporation de modèles séquentiels ou deep learning two-tower) seraient nécessaires pour franchir un palier de performance supplémentaire.
-
----
-
-*Ce projet a été réalisé dans le cadre du cours de recommandation 2025. Merci de votre lecture.*
