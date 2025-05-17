@@ -45,6 +45,8 @@ pip install -r requirements.txt
 
 ## 📱 Datas
 Ajouter les données à la racine dans ce format :
+
+```
 notebooks/
 data/
 ├── big_matrix.csv
@@ -54,6 +56,7 @@ data/
 ├── small_matrix.csv
 ├── social_network.csv
 └── user_features.csv
+```
 
 
 ## 📈 Pipeline
