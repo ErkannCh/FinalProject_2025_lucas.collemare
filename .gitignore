@@ -2,5 +2,10 @@ preprocessed/
 features/
 data/
 models/
-submission_cf.csv
+submission*
 .vscode/
+src/
+venv/
+debug_cf.py
+maximize.py
+run_pipeline.py

@@ -15,8 +15,8 @@ def load_features():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", choices=["cf", "content"], required=True)
     parser.add_argument("--out", default="models/")
+    parser.add_argument("--model", choices=["cf","content"], required=True)
     args = parser.parse_args()
     
     os.makedirs(args.out, exist_ok=True)
@@ -27,9 +27,13 @@ def main():
         model = CFModel(factors=64, regularization=0.05, iterations=20, alpha=40.0)
         model.fit(mat)
     else:
-        model = ContentModel()
-        model.fit(metadata, text_field="feat")
-
+        model = ContentModel(3000, (1,2))
+        model.fit(metadata_df=metadata,
+            interaction_matrix=mat,
+            user_map=user_map,
+            video_map=video_map,
+            text_field="feat"
+        )
     joblib.dump(model, f"{args.out}{args.model}_model.pkl")
     print(f"Model '{args.model}' saved to {args.out}")
 

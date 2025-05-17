@@ -38,54 +38,71 @@ class ContentModel:
             video_map: dict,
             text_field: str = "feat"):
         """
-        - metadata_df: DataFrame avec ['video_id', text_field]
+        - metadata_df: DataFrame with ['video_id', text_field]
         - interaction_matrix: CSR user×video
-        - user_map, video_map: dicts pour convertir IDs ↔ indices
+        - user_map, video_map: dicts to convert IDs ↔ indices
         """
-        # 1) Prépare dossier de sortie
+        # 1) Prepare output directory
         os.makedirs("models", exist_ok=True)
 
-        # 2) Conversion safe de chaque token en str
+        # 2) Safe conversion of each token to text
         def to_text(x):
-            if isinstance(x, (list, tuple)):
+            if isinstance(x, (list, tuple, np.ndarray)):
                 return " ".join(str(tok) for tok in x)
-            elif pd.notnull(x):
-                return str(x)
-            else:
+            if pd.isna(x):
                 return ""
+            return str(x)
 
+        # Build corpus and full TF-IDF
         corpus = metadata_df[text_field].apply(to_text).tolist()
-        self.video_ids = metadata_df["video_id"].tolist()
+        tfidf_full = self.tfidf.fit_transform(corpus)  # (n_meta_videos, n_terms)
 
-        # 3) TF-IDF
-        self.tfidf_matrix = self.tfidf.fit_transform(corpus)  # (n_videos, n_terms)
+        # Map of all metadata video_ids
+        all_video_ids = metadata_df["video_id"].tolist()
 
-        # 4) Profil utilisateur = moyenne pondérée des embeddings
-        n_users, n_videos = interaction_matrix.shape
+        # 3) Align TF-IDF to only those videos in the interaction matrix
+        #    - ordered_videos[i] = video_id whose column index is i
+        ordered_videos = [None] * len(video_map)
+        for vid, idx in video_map.items():
+            ordered_videos[idx] = vid
+
+        #    - map each video_id to its row in tfidf_full
+        id2row = {v: i for i, v in enumerate(all_video_ids)}
+
+        #    - extract and reorder rows
+        rows = [id2row[vid] for vid in ordered_videos]
+        tfidf_aligned = tfidf_full[rows, :]  # (n_videos_int, n_terms)
+
+        # Store aligned TF-IDF and the corresponding video_ids
+        self.tfidf_matrix = tfidf_aligned
+        self.video_ids = ordered_videos
+
+        # 4) Build user profiles as weighted average of their video embeddings
         um = interaction_matrix.astype("float32")
         row_sums = np.array(um.sum(axis=1)).flatten() + 1e-9
         um = um.multiply(1.0 / row_sums[:, None])
+        # um (n_users×n_videos_int) dot tfidf_aligned (n_videos_int×n_terms)
         self.user_profiles = um.dot(self.tfidf_matrix).toarray()  # (n_users, n_terms)
 
-        # 5) Sauvegarde modèles & données
+        # 5) Save models & data
         sparse.save_npz("models/tfidf_matrix.npz", self.tfidf_matrix)
         joblib.dump(self.tfidf, "models/tfidf_vectorizer.pkl")
         joblib.dump(self.user_profiles, "models/user_profiles.npy")
         joblib.dump(user_map, "models/user_map_content.pkl")
         joblib.dump(video_map, "models/video_map_content.pkl")
 
-        # 6) Stocke en mémoire pour recommend()
+        # 6) Keep maps in memory for recommend()
         self.user_map = user_map
         self.vid_map = video_map
 
-        print("ContentModel: modèles et profils enregistrés sous models/")
+        print("ContentModel: models and profiles saved under models/")
 
     def recommend(self, user_id, N: int = 10) -> list:
         """
-        Retourne top-N video_id par similarité cosinus,
-        en rechargeant si besoin les matrices depuis models/.
+        Return top-N video_id by cosine similarity,
+        reloading artifacts from models/ if necessary.
         """
-        # Si on est hors session, recharge tout
+        # Reload if needed
         if self.user_profiles is None:
             self.tfidf_matrix = sparse.load_npz("models/tfidf_matrix.npz")
             self.user_profiles = joblib.load("models/user_profiles.npy")
@@ -94,14 +111,14 @@ class ContentModel:
             self.vid_map = joblib.load("models/video_map_content.pkl")
 
         inv_vid_map = {v: k for k, v in self.vid_map.items()}
-        uidx = self.user_map.get(user_id, None)
+        uidx = self.user_map.get(user_id)
         if uidx is None:
             return []
 
         profile = self.user_profiles[uidx].reshape(1, -1)  # (1, n_terms)
-        sims = cosine_similarity(profile, self.tfidf_matrix).flatten()  # (n_videos,)
+        sims = cosine_similarity(profile, self.tfidf_matrix).flatten()  # (n_videos_int,)
 
-        # Top-N indices
+        # Get top-N indices
         best = np.argpartition(-sims, N)[:N]
         best = best[np.argsort(-sims[best])]
         return [inv_vid_map[i] for i in best]
