@@ -43,36 +43,36 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-## 📈 Exécution du pipeline
+## 📈 Pipeline
 
 1. **Prétraitement** :
 
    ```bash
-   jupyter nbconvert --to notebook --execute 01_Datas.ipynb
+   01_Datas.ipynb
    ```
 
 2. **Construction des features** :
 
    ```bash
-   jupyter nbconvert --to notebook --execute 02_Build_Features.ipynb
+   02_Build_Features.ipynb
    ```
 
 3. **Entraînement des modèles** :
 
    ```bash
-   jupyter nbconvert --to notebook --execute 03_Model_Developpement.ipynb
+   03_Model_Developpement.ipynb
    ```
 
 4. **Génération des recommandations** :
 
    ```bash
-   jupyter nbconvert --to notebook --execute 04_Generate_Recommandations.ipynb
+   04_Generate_Recommandations.ipynb
    ```
 
 5. **Évaluation** :
 
    ```bash
-   jupyter nbconvert --to notebook --execute 05_Evaluate.ipynb
+   05_Evaluate.ipynb
    ```
 
 ## 📊 Résultats et interprétation
