@@ -43,6 +43,12 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
+## 📱 Datas
+Ajouter les datas à la racine :
+notebooks/
+datas/
+
+
 ## 📈 Pipeline
 
 1. **Prétraitement** :
