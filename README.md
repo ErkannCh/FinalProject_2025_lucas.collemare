@@ -1,4 +1,4 @@
-# FinalProject\_2025\_\<Votre\_Nom>
+# FinalProject\_2025\_lucas.collemare
 
 ## 🚀 Projet : Système de recommandation de courtes vidéos (KuaiRec)
 
