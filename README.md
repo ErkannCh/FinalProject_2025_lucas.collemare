@@ -54,39 +54,6 @@ data/
 └── user_features.csv
 ```
 
-
-## 📈 Pipeline
-
-1. **Prétraitement** :
-
-   ```bash
-   01_Datas.ipynb
-   ```
-
-2. **Construction des features** :
-
-   ```bash
-   02_Build_Features.ipynb
-   ```
-
-3. **Entraînement des modèles** :
-
-   ```bash
-   03_Model_Developpement.ipynb
-   ```
-
-4. **Génération des recommandations** :
-
-   ```bash
-   04_Generate_Recommandations.ipynb
-   ```
-
-5. **Évaluation** :
-
-   ```bash
-   05_Evaluate.ipynb
-   ```
-
 ## 📊 Résultats et interprétation
 
 * **Precision\@10** et **NDCG\@10** sont calculés pour chaque pipeline (CF, CB, Hybrid).
