@@ -19,17 +19,13 @@
 
 ## 🧠 Choix du Modèle et Justifications
 
-1. 🎯 **Objectif principal**
-
-   * Proposer des suggestions de vidéos courtes pertinentes pour chaque utilisateur, même en cas de cold-start.
-
-2. ⚙️ **Approches retenues**
+1. ⚙️ **Approches retenues**
 
    * **Collaborative Filtering (CF)** via **ALS** pondéré par **BM25** : capte les similarités implicites entre utilisateurs et items.
    * **Content-Based (CB)** via **TF-IDF** sur les métadonnées (`feat`) : s’appuie sur les caractéristiques intrinsèques des vidéos.
    * **Hybrid + Popularité** : combinaison pondérée CF/CB (paramètre `alpha`) avec fallback sur popularité pour garantir un top-N complet.
 
-3. 👥 **Gestion des cold users**
+2. 👥 **Gestion des cold users**
 
    * Les utilisateurs sans historique héritent d’un profil via propagation sur le **réseau social**, avec décroissance exponentielle du poids selon la profondeur des amis.
 
