@@ -1,6 +1,6 @@
 # FinalProject\_2025\_lucas.collemare
 
-## 🚀 Projet : Système de recommandation de courtes vidéos (KuaiRec)
+## Projet : Système de recommandation de courtes vidéos (KuaiRec)
 
 **Objectif :** Développer un moteur de recommandations personnalisées pour des vidéos courtes en tirant parti des historiques d’interactions, des métadonnées et du réseau social des utilisateurs.
 
@@ -17,15 +17,15 @@
 * `submission_*.csv` : exemples de fichiers de soumission
 * `requirements.txt` : dépendances Python
 
-## 🧠 Choix du Modèle et Justifications
+## Choix du Modèle et Justifications
 
-1. ⚙️ **Approches retenues**
+1. **Approches retenues**
 
    * **Collaborative Filtering (CF)** via **ALS** pondéré par **BM25** : capte les similarités implicites entre utilisateurs et items.
    * **Content-Based (CB)** via **TF-IDF** sur les métadonnées (`feat`) : s’appuie sur les caractéristiques intrinsèques des vidéos.
    * **Hybrid + Popularité** : combinaison pondérée CF/CB (paramètre `alpha`) avec fallback sur popularité pour garantir un top-N complet.
 
-2. 👥 **Gestion des cold users**
+2. **Gestion des cold users**
 
    * Les utilisateurs sans historique héritent d’un profil via propagation sur le **réseau social**, avec décroissance exponentielle du poids selon la profondeur des amis.
 
@@ -39,7 +39,7 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-## 📱 Datas
+## Datas
 Ajouter les données à la racine dans ce format :
 
 ```
@@ -54,7 +54,7 @@ data/
 └── user_features.csv
 ```
 
-## 📊 Résultats et interprétation
+## Résultats et interprétation
 
 * **Precision\@10** et **NDCG\@10** sont calculés pour chaque pipeline (CF, CB, Hybrid).
 * Le modèle **Hybrid + Popularité** tend à offrir un bon compromis entre pertinence et couverture.
