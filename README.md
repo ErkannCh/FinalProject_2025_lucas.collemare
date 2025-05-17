@@ -36,10 +36,10 @@
 ## 🛠️ Installation
 
 ```bash
-git clone <lien-vers-votre-repo>
-cd FinalProject_2025_<Votre_Nom>
+git clone [<lien-vers-votre-repo>](https://github.com/ErkannCh/FinalProject_2025_lucas.collemare.git)
+cd FinalProject_2025_lucas.collemare
 python -m venv env
-source env/bin/activate  # ou `.\env\Scripts\activate` sur Windows
+source env/bin/activate
 pip install -r requirements.txt
 ```
 
