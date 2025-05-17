@@ -2,7 +2,7 @@
 
 ## 🚀 Projet : Système de recommandation de courtes vidéos (KuaiRec)
 
-**Objectif :** Développer un moteur de recommandations personnalisées pour des vidéos courtes, à l’instar de TikTok ou Kuaishou, en tirant parti des historiques d’interactions, des métadonnées et du réseau social des utilisateurs.
+**Objectif :** Développer un moteur de recommandations personnalisées pour des vidéos courtes en tirant parti des historiques d’interactions, des métadonnées et du réseau social des utilisateurs.
 
 ### 📂 Structure du dépôt
 
@@ -36,7 +36,7 @@
 ## 🛠️ Installation
 
 ```bash
-git clone [<lien-vers-votre-repo>](https://github.com/ErkannCh/FinalProject_2025_lucas.collemare.git)
+git clone https://github.com/ErkannCh/FinalProject_2025_lucas.collemare.git
 cd FinalProject_2025_lucas.collemare
 python -m venv env
 source env/bin/activate
@@ -98,10 +98,10 @@ data/
 
 ## 🔧 Difficultés et perspectives
 
-Malgré plusieurs tentatives pour améliorer les métriques (notamment **NDCG** et **Recall**), je n’ai pas réussi à obtenir de résultats significativement meilleurs que ceux présentés :
+Malgré plusieurs tentatives pour améliorer les métriques (notamment **NDCG**), je n’ai pas réussi à obtenir de résultats significativement meilleurs que ceux présentés :
 
 * Ajustements des hyperparamètres (nombre de facteurs, régularisation, pondération BM25).
 * Variation du paramètre `alpha` pour l’hybridation.
 * Renforcement du mécanisme cold-start via exploration plus profonde du graphe social.
 
-> **Bilan :** les approches explorées montrent leur potentiel, mais des optimisations supplémentaires (par ex. model tuning plus fin, incorporation de modèles séquentiels ou deep learning two-tower) seraient nécessaires pour franchir un palier de performance supplémentaire.
+> **Bilan :** les approches explorées montrent leur potentiel, mais des optimisations supplémentaires (par exemple model tuning plus fin, incorporation de modèles séquentiels ou deep learning two-tower) seraient nécessaires pour franchir un palier de performance supplémentaire.
